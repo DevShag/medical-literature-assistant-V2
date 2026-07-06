@@ -5,6 +5,7 @@ from app.config.settings import get_settings
 from app.core.lifespan import lifespan
 from app.api.router import api_router
 from app.middleware.request_id import RequestIDMiddleware
+from app.middleware.logging import LoggingMiddleware
 
 
 
@@ -32,6 +33,7 @@ def create_app() -> FastAPI:
         prefix=settings.api_v1_prefix,
     )
 
+    app.add_middleware(LoggingMiddleware)
     app.add_middleware(RequestIDMiddleware)
 
     return app
