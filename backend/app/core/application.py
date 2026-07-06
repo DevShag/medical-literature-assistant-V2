@@ -3,6 +3,9 @@ from fastapi import FastAPI
 from app.config.logging import configure_logging
 from app.config.settings import get_settings
 from app.core.lifespan import lifespan
+from app.api.router import api_router
+from app.middleware.request_id import RequestIDMiddleware
+
 
 
 def create_app() -> FastAPI:
@@ -22,5 +25,13 @@ def create_app() -> FastAPI:
         redoc_url="/redoc",
         openapi_url="/openapi.json",
     )
+
+
+    app.include_router(
+        api_router,
+        prefix=settings.api_v1_prefix,
+    )
+
+    app.add_middleware(RequestIDMiddleware)
 
     return app
