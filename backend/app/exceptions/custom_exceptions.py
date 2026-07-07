@@ -11,7 +11,7 @@ class ApplicationException(Exception):
         message: str,
         error_code: str,
         status_code: int,
-    ):
+    ) -> None:
         self.message = message
         self.error_code = error_code
         self.status_code = status_code
@@ -20,7 +20,7 @@ class ApplicationException(Exception):
 
 
 class ValidationException(ApplicationException):
-    def __init__(self, message: str):
+    def __init__(self, message: str) -> None:
         super().__init__(
             message=message,
             error_code="VALIDATION_ERROR",
@@ -29,7 +29,7 @@ class ValidationException(ApplicationException):
 
 
 class AuthenticationException(ApplicationException):
-    def __init__(self, message: str = "Authentication failed"):
+    def __init__(self, message: str = "Authentication failed") -> None:
         super().__init__(
             message=message,
             error_code="AUTHENTICATION_ERROR",
@@ -38,7 +38,7 @@ class AuthenticationException(ApplicationException):
 
 
 class AuthorizationException(ApplicationException):
-    def __init__(self, message: str = "Permission denied"):
+    def __init__(self, message: str = "Permission denied") -> None:
         super().__init__(
             message=message,
             error_code="AUTHORIZATION_ERROR",
@@ -56,7 +56,7 @@ class ResourceNotFoundException(ApplicationException):
 
 
 class DatabaseException(ApplicationException):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(
             message="Database operation failed.",
             error_code="DATABASE_ERROR",
@@ -65,7 +65,7 @@ class DatabaseException(ApplicationException):
 
 
 class ExternalServiceException(ApplicationException):
-    def __init__(self, service: str):
+    def __init__(self, service: str) -> None:
         super().__init__(
             message=f"{service} is currently unavailable.",
             error_code="EXTERNAL_SERVICE_ERROR",

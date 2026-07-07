@@ -63,10 +63,48 @@ select = [
     "B"
 ]
 
+
+
 [tool.pytest.ini_options]
-asyncio_mode = "auto"
-pythonpath = ["."]
+minversion = "8.0"
+
+testpaths = [
+    "tests",
+]
+
+python_files = [
+    "test_*.py",
+]
+
+python_classes = [
+    "Test*",
+]
+
+python_functions = [
+    "test_*",
+]
+
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+]
 
 [tool.mypy]
 python_version = "3.12"
+
 strict = true
+
+warn_unused_configs = true
+
+warn_return_any = true
+
+warn_unused_ignores = true
+
+show_error_codes = true
+
+pretty = true
+
+exclude = [
+    "^tests/",
+]

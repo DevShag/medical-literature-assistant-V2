@@ -1,7 +1,7 @@
 import time
 
 import structlog
-from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 from starlette.requests import Request
 from starlette.responses import Response
 
@@ -23,10 +23,10 @@ class LoggingMiddleware(BaseHTTPMiddleware):
     async def dispatch(
         self,
         request: Request,
-        call_next,
+        call_next: RequestResponseEndpoint,
     ) -> Response:
         start_time = time.perf_counter()
-        response = await call_next(request)
+        response: Response = await call_next(request)
 
         latency_ms = round(
             (time.perf_counter() - start_time) * 1000,
