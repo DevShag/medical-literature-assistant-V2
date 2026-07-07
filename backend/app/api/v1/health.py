@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from app.config.settings import get_settings
 
+from app.config.settings import get_settings
 from app.schemas.health import (
     HealthResponse,
     LivenessResponse,
@@ -11,12 +11,10 @@ router = APIRouter()
 settings = get_settings()
 
 
-
 @router.get(
-        "/ready",
-        response_model=ReadinessResponse,
-    )
-
+    "/ready",
+    response_model=ReadinessResponse,
+)
 async def readiness() -> ReadinessResponse:
     return ReadinessResponse(
         status="ready",
@@ -24,6 +22,7 @@ async def readiness() -> ReadinessResponse:
         redis=False,
         vector_database=False,
     )
+
 
 @router.get(
     "",
@@ -45,10 +44,3 @@ async def liveness() -> LivenessResponse:
     return LivenessResponse(
         status="alive",
     )
-
-
-@router.get("/ready")
-async def readiness():
-    return {
-        "status": "ready",
-    }

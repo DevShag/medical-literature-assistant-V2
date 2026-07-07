@@ -1,12 +1,13 @@
 from functools import lru_cache
+
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from app.enums.log_level import LogLevel 
 
 from app.enums.environment import Environment
+from app.enums.log_level import LogLevel
+
 
 class Settings(BaseSettings):
-
     """
     Application settings.
 
@@ -19,7 +20,7 @@ class Settings(BaseSettings):
     # ------------------------------------------------------------------
     # Application
     # ------------------------------------------------------------------
-    
+
     app_name: str = Field(
         default="Medical Literature Assistant",
         description="Application name",
@@ -38,15 +39,45 @@ class Settings(BaseSettings):
 
     api_v1_prefix: str = Field(default="/api/v1")
 
-     # Logging
+    # Logging
     # ------------------------------------------------------------------
     log_level: str = Field(
-        default= LogLevel.INFO,
+        default=LogLevel.INFO,
         description="Logging level",
     )
 
+    # ------------------------------------------------------------------
+    # CORS Middleware Configuration
+    # ------------------------------------------------------------------
+    allowed_origins: list[str] = Field(
+        default=[
+            "http://localhost:3000",  # React
+            "http://localhost:5173",  # Vite
+        ]
+    )
 
-     # ------------------------------------------------------------------
+    allowed_methods: list[str] = Field(
+        default=[
+            "GET",
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE",
+            "OPTIONS",
+        ]
+    )
+
+    allowed_headers: list[str] = Field(
+        default=[
+            "Authorization",
+            "Content-Type",
+            "X-Request-ID",
+        ]
+    )
+
+    allow_credentials: bool = True
+
+    # ------------------------------------------------------------------
     # Settings Configuration
     # ------------------------------------------------------------------
     model_config = SettingsConfigDict(
@@ -62,5 +93,4 @@ def get_settings() -> Settings:
     """
     Returns a cached Settings instance.
     """
-    return Settings()   
-
+    return Settings()

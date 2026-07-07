@@ -20,7 +20,6 @@ class RequestIDMiddleware(BaseHTTPMiddleware):
         request: Request,
         call_next,
     ) -> Response:
-
         request_id = str(uuid.uuid4())
 
         request.state.request_id = request_id

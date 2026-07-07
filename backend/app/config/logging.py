@@ -25,8 +25,6 @@ def configure_logging(log_level: str = "INFO") -> None:
             structlog.processors.JSONRenderer(),
         ],
         logger_factory=structlog.stdlib.LoggerFactory(),
-        wrapper_class=structlog.make_filtering_bound_logger(
-            getattr(logging, log_level.upper())
-        ),
+        wrapper_class=structlog.make_filtering_bound_logger(getattr(logging, log_level.upper())),
         cache_logger_on_first_use=True,
     )

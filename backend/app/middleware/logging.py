@@ -11,16 +11,21 @@ logger = structlog.get_logger()
 class LoggingMiddleware(BaseHTTPMiddleware):
     """
     Logs every incoming HTTP request and outgoing response.
+
+    Responsibilities:
+    - Measure request latency
+    - Emit structured logs
+    - Add X-Response-Time response header
     """
+
+    RESPONSE_TIME_HEADER = "X-Response-Time"
 
     async def dispatch(
         self,
         request: Request,
         call_next,
     ) -> Response:
-
         start_time = time.perf_counter()
-
         response = await call_next(request)
 
         latency_ms = round(
@@ -37,5 +42,7 @@ class LoggingMiddleware(BaseHTTPMiddleware):
             latency_ms=latency_ms,
             client_ip=request.client.host if request.client else None,
         )
+
+        response.headers[self.RESPONSE_TIME_HEADER] = f"{latency_ms} ms"
 
         return response
